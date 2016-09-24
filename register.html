@@ -23,6 +23,15 @@
             return false;
 
         }
+
+        function check(input) {
+        if (input.value != document.getElementById('password').value) {
+            input.setCustomValidity('Password Must be Matching.');
+        } else {
+            // input is valid -- reset the error message
+            input.setCustomValidity('');
+        }
+    }
     </script>
 
     <meta charset="utf-8">
@@ -55,9 +64,9 @@
                 Phone Number: <input type="text" name="phone" required><br>
                 <br>
 
-                Password*: <input type="text" name="password" required>
+                Password*: <input name="password" required="required" type="password" id="password" />
 
-                Confirm Password: <input type='text' name="comfirmphone"><br>
+                Confirm Password: <input name="password_confirm" required="required" type="password" id="password_confirm" oninput="check(this)" /><br>
                 <br>
 
                 Email: <input type="text" name="email">
