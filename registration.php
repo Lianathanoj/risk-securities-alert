@@ -30,7 +30,7 @@
     $encryptedPass = hash("sha256", $salt.$password);
     
 
-    $sql = "INSERT INTO registration
+    $sql = "INSERT INTO user
         VALUES ('$name',
                 '$encryptedPass',
                 '$salt',
