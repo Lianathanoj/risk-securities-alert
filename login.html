@@ -42,14 +42,16 @@
 	<title>Welcome!</title>
 	<link rel="stylesheet" href="./assets/css/custom.css">
 </head>
+<header>
+    <legend style="padding: 25px;font-size: 250%;margin-bottom: 150px; text-align: center"> Login</legend>
+</header>
 <body>
 <center>
-<div class="well">
+<div class="well" style="margin-right: 450px;margin-left: 450px">
 <form id="register" onsubmit="return check();" action="registration.php" method="post">
             <fieldset>
-                <legend>Login</legend>
                 Username*: <input type="text" name="username" required><br>
-
+                <br>
                 Password*: <input type="text" name="password" required>
 
             </fieldset>

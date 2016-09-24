@@ -43,20 +43,30 @@
 	<link rel="stylesheet" href="./assets/css/custom.css">
 </head>
 <body>
+<header>
+    <legend style="padding: 25px;font-size: 250%;margin-bottom: 150px; text-align: center">Register Information</legend>
+</header>
 <center>
-<div class="well">
+<div class="well" style="margin-right: 550px;margin-left: 550px">
 <form id="register" onsubmit="return check();" action="registration.php" method="post">
             <fieldset>
-                <legend>Register Information</legend>
                 Username*: <input type="text" name="username" required>
 
                 Phone Number: <input type="text" name="phone" required><br>
+                <br>
 
                 Password*: <input type="text" name="password" required>
 
+<<<<<<< HEAD
                 Confirm Password: <input type='text' required><br>
 
                 Email: <input type="text" name="email" required>
+=======
+                Confirm Password: <input type='text' name="comfirmphone"><br>
+                <br>
+
+                Email: <input type="text" name="email">
+>>>>>>> 1b0299521fab59369958bd0ab825c204d11f4e36
 
             </fieldset>
 
