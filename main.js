@@ -2,10 +2,10 @@
 var mysql = require('mysql');
 
 // create the connection to database
-var connection = mysql.createConnection({host:'localhost', user: 'root', database: 'test', password: 'secret'});
+var connection = mysql.createConnection({host:'localhost', user: 'root', database: 'test', password: 'pass'});
 
 // connection.connect();
-connection.connect(function(err, rows, fields) {
+/*connection.connect(function(err, rows, fields) {
     if (err) {
         console.error('error connecting: ' + err.stack);
         return;
@@ -15,20 +15,13 @@ connection.connect(function(err, rows, fields) {
     console.log(rows);
     // console.log(fields);
 
-});
-/*console.log(connection);
-// simple query
-connection.query("SELECT * FROM `testdata`", function (err, rows, fields) {
-  if (err) throw err;
-  console.log(rows); // results contains rows returned by server
-  console.log(fields); // fields contains extra meta data about results, if available
 });*/
 
+connection.query("INSERT INTO testdata (name) VALUES ('John')", function (err, rows, fields) {
+    console.log(rows);
+});
+
 connection.end();
-// with placeholder
-// connection.query('SELECT * FROM `table` WHERE `name` = ? AND `age` > ?', ['Page', 45], function (err, results) {
-  // console.log(results);
-// });
 
 var http = require("http");
 
