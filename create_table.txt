@@ -9,5 +9,5 @@ uid char(20),
 sid char(20));
 
 create table stock(
-name name char(20),
+sname name char(20),
 sid char(20));

@@ -11,10 +11,10 @@
     Registration result 
 
     <?php
-    $servername = "<server ip>";
-    $username = "<username";
-    $password = "<password>";
-    $dbname = "<databaseName>";
+    $servername = "127.0.0.1";
+    $username = "root";
+    $password = "";
+    $dbname = "risk";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
