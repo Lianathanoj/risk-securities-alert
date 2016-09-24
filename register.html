@@ -31,6 +31,10 @@
             // input is valid -- reset the error message
             input.setCustomValidity('');
         }
+
+        function goBack() {
+            window.history.back();
+        }
     }
     </script>
 
@@ -75,6 +79,7 @@
             <br>
             <input type="submit" value="Submit">
             <input type="button" onclick="clearForm()" value="Clear entire form">
+            <INPUT Type="button" VALUE="Return" onClick="history.go(-1);return true;">
 
         </form>
 </div>
