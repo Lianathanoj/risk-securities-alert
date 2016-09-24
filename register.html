@@ -1,75 +1,84 @@
-<script src="jquery-validation-1.15.0\lib\jquery.js"></script>
-<script src="jquery-validation-1.15.0\dist\jquery.validate.js"></script>
-<form id="registerform" class="form-horizontal" method="post" action="registration.php">
-<fieldset>
+<!DOCTYPE html>
+<html class="full" lang="en">
 
-<!-- Form Name -->
-<legend>Register</legend>
+    <!-- jQuery -->
+    <script src="./assets/js/jquery.js" defer></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./assets/js/bootstrap.min.js" defer></script>
+    
+    <script>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="username">Username:</label>
-  <div class="col-md-4">
-  <input id="username" name="username" type="text" placeholder="" class="form-control input-md" required="">
+        function clearForm() {
 
-  </div>
-</div>
-
-<!-- Password input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="password">Password:</label>
-  <div class="col-md-4">
-    <input id="password" name="password" type="password" placeholder="" class="form-control input-md" required="">
-
-  </div>
-</div>
-
-<!-- Password input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="confirmpass">Confirm Password:</label>
-  <div class="col-md-4">
-    <input id="confirmpass" name="confirmpass" type="password" placeholder="" class="form-control input-md" required="">
-
-  </div>
-</div>
-
-<script>
-$(document).ready(function(){
-    $("#registerform").validate({
-      rules: {
-        confirmpass: {
-          equalTo: "#password"
+            if (confirm('Are you sure? All fields will be reset!')) {
+                document.getElementById("register").reset();
+            }
         }
-      }
-    });
-});
-</script>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="phoneinput">Phone #:</label>
-  <div class="col-md-4">
-  <input id="phoneinput" name="phoneinput" type="text" placeholder="" class="form-control input-md" required="">
+        function check() {
 
-  </div>
+            if (confirm('Please check over the form and verify that all fields are correct!')) {
+                return true;
+            }
+            return false;
+
+        }
+    </script>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Wesley Cheung">
+    
+    <!-- Bootstrap Core CSS -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Core CSS -->
+    <link href="./assets/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="./assets/css/custom.css" rel="stylesheet">
+    
+<head>
+	<title>Welcome!</title>
+	<link rel="stylesheet" href="./assets/css/custom.css">
+</head>
+<body>
+<center>
+<div class="well">
+<form id="register" onsubmit="return check();" action="registration.php" method="post">
+            <fieldset>
+                <legend>Family Information (家庭資料) </legend>
+                Family Last Name (姓氏)*: <input type="text" name="family_name" required><br>
+
+                Mother (母親姓名)*: <input type="text" name="mom_name" required>
+
+                Mother's Cell Phone (母親手提): <input type='text' name="mom_phone"><br>
+
+                Father (父親姓名)*: <input type="text" name="dad_name" required>
+
+                Father's Cell Phone (父親手提): <input type="text" name="dad_phone"><br>
+
+                If the child(ren) attend church service with a guardian, please also provide the guardian's information. (兒童若由監護人帶返教會,請填上監護人資料)<br>
+
+                Guardian's Name (監護人姓名): <input type="text" name="guardian_name">
+
+                Guardian's Cell Phone (監護人手提): <input type="text" name="guardian_phone"><br>
+
+                Guardian's Relationship (關係): <input type="text" name="guardian_relationship"><br>
+
+            </fieldset>
+
+            <span id="writeroot"></span>
+
+
+            <br>
+
+            <input type="button" onclick="moreFields()" value="Add child" />
+            <input type="submit" value="Submit">
+            <input type="button" onclick="clearForm()" value="Clear entire form">
+
+        </form>
 </div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="email">Email:</label>
-  <div class="col-md-4">
-  <input id="email" name="email" type="text" placeholder="" class="form-control input-md">
-
-  </div>
-</div>
-
-<!-- Button -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="registerbutton"></label>
-  <div class="col-md-4">
-    <button id="registerbutton" name="registerbutton" class="btn btn-primary">Register</button onclick="register.js">
-  </div>
-</div>
-
-</fieldset>
-</form>
+</center>
+</body>
+</html>

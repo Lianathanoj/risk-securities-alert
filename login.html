@@ -1,34 +1,196 @@
-<form class="form-horizontal" method="post">
-<fieldset>
+<!DOCTYPE html>
 
-<!-- Form Name -->
-<legend>Login</legend>
+    <script>
 
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="username">Username: </label>
-  <div class="col-md-4">
-  <input id="username" name="username" type="text" placeholder="" class="form-control input-md" required="">
+        var counter = 0;
 
-  </div>
-</div>
+        function clearForm() {
 
-<!-- Password input-->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="password">Password:</label>
-  <div class="col-md-4">
-    <input id="password" name="password" type="password" placeholder="" class="form-control input-md" required="">
+            if (confirm('Are you sure? All fields will be reset!')) {
+                document.getElementById("register").reset();
+            }
+        }
 
-  </div>
-</div>
+        function check() {
 
-<!-- Button -->
-<div class="form-group">
-  <label class="col-md-4 control-label" for="submit"></label>
-  <div class="col-md-4">
-    <button id="submit" name="submit" class="btn btn-primary">Submit</button onclick="login.js">
-  </div>
-</div>
+            if (confirm('Please check over the form and verify that all fields are correct!')) {
+                return true;
+            }
+            return false;
 
-</fieldset>
-</form>
+        }
+
+        function moreFields() {
+            counter++;
+            var newFields = document.getElementById('child').cloneNode(true);
+            newFields.id = '';
+            newFields.style.display = 'block';
+            var newField = newFields.childNodes;
+            for (var i=0;i<newField.length;i++) {
+                var theName = newField[i].name
+                newField[i].required = true;
+                if (theName)
+                    newField[i].name = theName + counter;
+            }
+
+            var insertHere = document.getElementById('writeroot');
+            insertHere.parentNode.insertBefore(newFields,insertHere);
+        }
+
+        function myFunction() {
+            var c = document.getElementById("child").childNodes;
+            var txt = "";
+            var i;
+            for (i = 0; i < c.length; i++) {
+                txt = txt + c[i].nodeName + i + "<br>";
+            }
+
+            document.getElementById("demo").innerHTML = txt;
+        }
+        window.onload = moreFields;
+    </script>
+
+    <meta charset="utf-8">
+    <title>Registration Form</title>
+    </head>
+
+    <body bgcolor="#FFFFFF">
+    <HR>
+    <h2><center></center></h2>
+
+
+     <h8><center>CHILDREN MINISTRY REGISTRATION FORM (兒童部登記表) 2016-2017</center></h8>
+     <HR>
+
+    <P>
+        * designates required fields (必填項目)
+        <form id="register" onsubmit="return check();" action="dashboard.php" method="post">
+            <fieldset>
+                <legend>Family Information (家庭資料) </legend>
+                Family Last Name (姓氏)*: <input type="text" name="family_name" required><br>
+
+                Mother (母親姓名)*: <input type="text" name="mom_name" required>
+
+                Mother's Cell Phone (母親手提): <input type='text' name="mom_phone"><br>
+
+                Father (父親姓名)*: <input type="text" name="dad_name" required>
+
+                Father's Cell Phone (父親手提): <input type="text" name="dad_phone"><br>
+
+                If the child(ren) attend church service with a guardian, please also provide the guardian's information. (兒童若由監護人帶返教會,請填上監護人資料)<br>
+
+                Guardian's Name (監護人姓名): <input type="text" name="guardian_name">
+
+                Guardian's Cell Phone (監護人手提): <input type="text" name="guardian_phone"><br>
+
+                Guardian's Relationship (關係): <input type="text" name="guardian_relationship"><br>
+
+            </fieldset>
+
+            <fieldset id="additional">
+                <legend>Additional Information</legend>
+                Address (地址): <input type="text" name="address" size = "60"><br>
+
+                Email (電郵): <input type="text" name="email"><br>
+
+                Spoken Language(s) (使用語言): <br>
+                <input type="checkbox" name="english_speaking" value="Y"> English (英語)<br>
+                <input type="checkbox" name="mandarin_speaking" value="Y"> Mandarin (國語) <br>
+                <input type="checkbox" name="cantonese_speaking" value="Y"> Cantonese (粵語) <br>
+
+                Services Parents/Guardians Attend (祟拜時間): <br>
+                <input type="radio" name="service" value="english" checked> English (英文堂)<br>
+                <input type="radio" name="service" value="chinese"> Chinese (中文堂)<br>
+
+                Is there any custodial information that we should be aware of? (有沒有兒童特別看管上的安排)<br>
+                <input type="radio" value="no" name="custodial_info" onchange="this.parentNode.childNodes[43].disabled = true; this.parentNode.childNodes[43].required = false; this.parentNode.childNodes[43].value = '';" checked /> No<br>
+
+                <input type="radio" name="custodial_info" onchange="this.parentNode.childNodes[43].disabled = false; this.parentNode.childNodes[43].required = true;"> Yes (explain) <br>
+                <textarea cols="40" rows="3" name="custodial_info" id="other" disabled></textarea><br>
+
+                Emergency Contact Information (緊急聯絡人資料)<br>
+
+                Name (姓名)*: <input type="text" name="emergency_name" required>
+
+                Phone (電話)*: <input type="text" name="emergency_phone" required><br>
+
+                Relationship (關係)*: <input type="text" name="emergency_relationship" required><br>
+
+            </fieldset>
+
+            <fieldset id="child" style="display: none">
+
+                <legend>Child Information (兒童資料)</legend>
+
+                Child’s First Name (兒童名字)*: <input type="text" name="child_first_name">
+
+                Child’s Last Name (兒童姓氏)*: <input type="text" name="child_last_name"><br>
+
+                Birth Date (出生日期)*: <input type="date" name= "child_birthdate"/> <br>
+
+                Grade this Fall (新學期年級):
+                 <select name="child_grade">
+                 <option value="nursery">Nursery</option>
+                  <option value="preschool">Preschool</option>
+                  <option value="kindergarten">Kindergarten</option>
+                  <option value="1st">1st Grade</option>
+                  <option value="2nd">2nd Grade</option>
+                  <option value="3rd">3rd Grade</option>
+                  <option value="4th">4th Grade</option>
+                  <option value="5th">5th Grade</option>
+                </select> <br>
+
+                Gender (性別):
+                <input type="radio" name="child_gender" value="M" checked> Male (男)
+                <input type="radio" name="child_gender" value="F"> Female (女)<br>
+
+                Allergies - food or others? (食物及其他敏感?) <br>
+
+                <input type="radio" value="no" name="child_allergies" onchange="this.parentNode.childNodes[32].disabled = 'true'; this.parentNode.childNodes[32].required = false; this.parentNode.childNodes[32].value = '';" checked> No<br>
+
+                <input type="radio" name="child_allergies" onchange="this.parentNode.childNodes[32].disabled = false; this.parentNode.childNodes[32].required = true;"> Yes (explain) <br>
+                <textarea cols="40" rows="3" name="child_special_needs" id="other" disabled></textarea><br>
+
+                Special needs or any other pertinent medical information that we should be aware of (兒童身體状況如何,有無特別注意事項並有關醫療資料): <br>
+
+                <input type="radio" value="no" name="child_special_needs" onchange="this.parentNode.childNodes[45].disabled = true; this.parentNode.childNodes[45].required = false; this.parentNode.childNodes[45].value = '';" checked /> No<br>
+
+                <input type="radio" name="child_special_needs" onchange="this.parentNode.childNodes[45].disabled = false; this.parentNode.childNodes[45].required = true;"> Yes (explain) <br>
+                <textarea cols="40" rows="3" name="child_special_needs" id="other" disabled></textarea><br>
+
+                Snacks - can child receive snacks during class? (可否給小吃?)<br>
+                <input type="radio" name="child_snacks" value="Y" checked> Yes
+                <input type="radio" name="child_snacks" value="N"> No<br>
+
+                For 5 and under (五歲及以下) - Is the child potty trained? (兒童如廁訓練?)<br>
+                <input type="radio" name="child_potty" value="Y" checked> Yes, no longer in diapers or pull-ups (是,不再使用尿片) <br>
+                <input type="radio" name="child_potty" value="N"> No, still in diapers (否,仍然使用尿片)<br>
+                <input type="radio" name="child_potty" value="IP"> In progress (訓練中)<br>
+
+                <input type="button" value="Remove child"
+                onclick="if(counter >= 2){
+                            this.parentNode.parentNode.removeChild(this.parentNode); counter--;
+                         }
+                            " />
+
+                <input type="button" value="Clear child"
+                onclick="this.parentNode.parentNode.removeChild(this.parentNode); counter--; moreFields();" />
+
+                <br>
+
+            </fieldset>
+
+            <span id="writeroot"></span>
+
+
+            <br>
+
+            <input type="button" onclick="moreFields()" value="Add child" />
+            <input type="submit" value="Submit">
+            <input type="button" onclick="clearForm()" value="Clear entire form">
+
+        </form>
+    </body>
+
+</html>
+
