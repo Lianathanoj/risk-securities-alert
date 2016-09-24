@@ -1,0 +1,13 @@
+create table user(
+username char(20),
+password char(20),
+salt char(20),
+uid char(20));
+    
+create table owned(
+uid char(20),
+sid char(20));
+
+create table stock(
+name name char(20),
+sid char(20));

@@ -1,0 +1,5 @@
+select phoneNumber 
+from users 
+where uid in (select uid 
+                from owned 
+                where sid == $fallingsStock)
