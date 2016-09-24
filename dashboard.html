@@ -82,11 +82,17 @@
                     table.destroy();
                 }
           $table.empty();
+
+          var newcols = [columns.length + 2];
+          for (var i = 0; i < columns.length; i++) {
+            newcols[i] = columns[i];
+        }
+        newcols[newcols.length] = 'Add?';
           table = $table.DataTable({
             data: tableData,
-            columns: columns.map(function(col) {
+            columns: newcols.map(function(col) {
               return {
-                title: StringUtil.camelToHuman(col) + '\n(' + col + ')'
+                title: StringUtil.camelToHuman(col)
               }
             }),
             order: [
@@ -95,6 +101,10 @@
           });
         });
       }
+      $('#displayTable').find('tr').each(function(){
+              $(this).find('td').eq(6).after('<td>new cell added</td>');
+              $(this).find('td').eq(8).remove();
+           });
 
       var skipCols = ['@type', 'asOfDate', 'aladdinTicker', 'assetClass', 'countryCode', 'duration', 'effectiveDuration', 'expense', 'funFamilyNow', 'bcusip', 'bloombergId', 'bloombergTicker', 'country', 'fundFamilyName', 'fundId', 'gics1Sector', 'gics2IndustryGroup', 'gics3Industry', 'giccs4SubIndustry', 'gicsCode', 'inceptionDate', 'incomeYield', 'legalType', 'mappedDescription', 'mappedTicker', 'mappedType', 'marketCode', 'maturity', 'modelDuration', 'modifiedDuration', 'morningstarCategory', 'morningstarFundID', 'morningstarSecID', 'oad', 'pbRatio', 'peRatio', 'portfolioId', 'portfolioName', 'pricingCusip', 'prospectusNetExpenseRatio', 'returnOnAssets', 'returnOnEquity', 'riskCusip', 'secYield', 'secYieldEndDate', 'securityId', 'securityIdType', 'securityName', 'sedol', 'shareClassType', 'stdPerfAsOfDate', 'std'];
       var colOrder = ['score', 'description', 'ticker', 'assetType', 'availability', 'country', 'isin',];
@@ -108,8 +118,6 @@
       $('#submit').click(delayedSearch.bind($search[0], 0));
 
       submit($search.val(), $rows.val(), skipCols, colOrder);
-
-
 
     });
     </script>
