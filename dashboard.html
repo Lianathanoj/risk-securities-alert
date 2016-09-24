@@ -16,7 +16,7 @@
 </div>
 
 <div>
-    <p>Add Stocks:</p>
+    <p>Add Assets:</p>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://test3.blackrock.com/tools/resources/css/api/main.css">
     <link rel="stylesheet" href="https://test3.blackrock.com/tools/resources/css/api/tables.css">
@@ -61,18 +61,18 @@
           useCache: true
         }, function(data) {
           var securities = data.resultMap.SEARCH_RESULTS[0].resultList;
-          console.log(securities);
           var skipCols = skipColumns || [];
           var startingColumns = columnOrder || [];
           var columns = [];
-          securities.forEach(function(sec) {
+          /*securities.forEach(function(sec) {
             for (var field in sec) {
-              if ((typeof sec[field] === 'string' || typeof sec[field] === 'number') && !skipCols.includes(field) && !startingColumns.includes(field) && !columns.includes(field)) {
+              if ((typeof sec[field] === 'string' || typeof sec[field] === 'number') && startingColumns.includes(field) && !columns.includes(field)) {
                 columns.push(field);
               }
             }
           });
-          columns = startingColumns.concat(columns.sort());
+          columns = startingColumns.concat(columns.sort());*/
+          columns = startingColumns;
           var tableData = securities.map(function(sec) {
             return columns.map(function(col) {
               return col == 'score' ? sec[col].toFixed(3) : sec[col] || '-';
@@ -96,8 +96,8 @@
         });
       }
 
-      var skipCols = ['@type', 'description', 'asOfDate', 'aladdinTicker', 'assetClass', 'countryCode', 'duration', 'effectiveDuration', 'expense', 'funFamilyNow', 'bcusip', 'bloombergId', 'bloombergTicker', 'country', 'fundFamilyName', 'fundId', 'gics1Sector', 'gics2IndustryGroup', 'gics3Industry', 'giccs4SubIndustry', 'gicsCode', 'inceptionDate', 'incomeYield', ];
-      var colOrder = ['score', 'ticker'];
+      var skipCols = ['@type', 'asOfDate', 'aladdinTicker', 'assetClass', 'countryCode', 'duration', 'effectiveDuration', 'expense', 'funFamilyNow', 'bcusip', 'bloombergId', 'bloombergTicker', 'country', 'fundFamilyName', 'fundId', 'gics1Sector', 'gics2IndustryGroup', 'gics3Industry', 'giccs4SubIndustry', 'gicsCode', 'inceptionDate', 'incomeYield', 'legalType', 'mappedDescription', 'mappedTicker', 'mappedType', 'marketCode', 'maturity', 'modelDuration', 'modifiedDuration', 'morningstarCategory', 'morningstarFundID', 'morningstarSecID', 'oad', 'pbRatio', 'peRatio', 'portfolioId', 'portfolioName', 'pricingCusip', 'prospectusNetExpenseRatio', 'returnOnAssets', 'returnOnEquity', 'riskCusip', 'secYield', 'secYieldEndDate', 'securityId', 'securityIdType', 'securityName', 'sedol', 'shareClassType', 'stdPerfAsOfDate', 'std'];
+      var colOrder = ['score', 'description', 'ticker', 'assetType', 'availability', 'country', 'isin',];
       var searchTimeout;
 
       function delayedSearch(delay) {
