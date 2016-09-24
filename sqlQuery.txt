@@ -2,4 +2,10 @@ select phoneNumber
 from users 
 where uid in (select uid 
                 from owned 
-                where sid == $fallingsStock)
+                where sid = $fallingsStock)
+                
+select sname 
+from stock 
+where sid in (select sid 
+                from owned 
+                where uid = $uid)
