@@ -96,9 +96,6 @@
 
     <script>
         // var tickers = []; // new Set();
-        function php_post() {
-
-        }
 
 
         $(function() {
@@ -144,7 +141,7 @@
                                 return col == 'score' ? sec[col].toFixed(3) : sec[col] || '-';
                             });
                         });
-                        if (tickers.length != 0) {
+                        if (tableDataTicker.length != 0) {
                             // tickers.add(tableDataTicker[0][0]);
                             document.myform.extra.value = tableDataTicker[0][0];
 
