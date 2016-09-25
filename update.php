@@ -24,6 +24,7 @@
         
 
 </div>
+<br>
 <p style="font-size: 200%;margin-left: 175px">Currently Tracking:</p>
 
 <?php
@@ -260,7 +261,7 @@ $(function() {
             // A Twilio phone number you purchased at twilio.com/console
             'from' => '+16786078046 ',
             // the body of the text message you'd like to send
-            'body' => 'Your securities risk threshold has been reached! Consider visiting Blackrock to secure your future!'
+            'body' => 'Your securities risk threshold for your portfolio ('.$stocks.') has been reached! Consider visiting BlackRock to secure your future!'
         )
     );
     }
