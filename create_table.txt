@@ -3,8 +3,8 @@ username char(20) NOT NULL,
 password char(20) NOT NULL,
 salt char(20) NOT NULL,
 pnum char(10) NOT NULL,
-riskThreshhold 
-uid char(20)) NOT NULL;
+riskThreshhold INTEGER, 
+uid char(20) NOT NULL) ;
     
 create table owned(
 uid char(20) NOT NULL,

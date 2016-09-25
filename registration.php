@@ -1,52 +1,44 @@
 <!DOCTYPE html>
+<html class="full" lang="en">
+
+    <!-- jQuery -->
+    <script src="./assets/js/jquery.js" defer></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./assets/js/bootstrap.min.js" defer></script>
     
-    <script>
-    function goBack() {
-        window.history.back()
-    }
-    </script>
         
     <body>
 
-    Registration result 
 
     <?php
-    $servername = "127.0.0.1";
-    $username = "root";
-    $password = "";
-    $dbname = "risk";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include("config.php");
+    $username = mysqli_real_escape_string($db,$_POST['username']);
+    $password = mysqli_real_escape_string($db,$_POST['password']); 
+    $phoneNumber = mysqli_real_escape_string($db,$_POST['phone']); 
     
-    $name = $_POST["username"];
-    $password = $_POST["password"];
     $salt = mcrypt_create_iv(20);
-    $uid = hash("sha256", $salt.$name);
+    $uid = hash("sha256", $username);
     $encryptedPass = hash("sha256", $salt.$password);
     
 
-    $sql = "INSERT INTO user
-        VALUES ('$name',
+    $query = "INSERT INTO user
+        VALUES ('$username',
                 '$encryptedPass',
                 '$salt',
+                '$phoneNumber',
+                10,
                 '$uid');";
                 
-    if(!($result = mysqli_query($conn, $query)))
+    if(!($result = mysqli_query($db, $query)))
     {      
-
-       printf("Error: please try again");
-       exit(1);
+            echo "     Your registration FAILED\n";
+            echo "Error: " . $query . "<br>" . $db->error;
        
     } else {
         printf("Registration sucess!"); 
     }
                 
-    $conn->close();
+    $db->close();
     
     ?> 
 

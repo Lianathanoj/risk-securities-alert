@@ -1,67 +1,43 @@
 <?php
-    $servername = "127.0.0.1";
-    $username = "root";
-    $password = "";
-    $dbname = "risk";
+    include("config.php");
     
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    $name = "lol";
+    $phoneNumber;
     
-    /*$query = "select sname 
-                    from stock 
-                    where sid in (select sid 
-                                    from owned 
-                                    where uid = ".$uid.")";*/
-    
-    $query = "select * from user";                         
 
-    print("<TR> <TD><FONT color=\"blue\"><B><PRE>\n");
-    print("</PRE></B></FONT></TD></TR></TABLE></UL>\n");
-    print("<P><HR><P>\n");
-          
-    if ( ! ( $result = mysqli_query($conn, $query)) )      # Execute query
+    $query = "select pnum from user";
+                
+    if ( ! ( $result = mysqli_query($db, $query)) )      # Execute query
     {      
-       printf("Error: %s\n", mysqli_error($conn));
+       printf("Error: %s\n", mysqli_error($db));
        exit(1);
-    }      
-          
-    print("<UL>\n");
-    print("<TABLE bgcolor=\"lightyellow\" BORDER=\"5\">\n");
-          
-    $printed = false;
+    }    
+    $row = mysqli_fetch_assoc( $result );
+    foreach ($row as $string) {
+        printf($string);
+    }
 
-    while ( $row = mysqli_fetch_assoc( $result ) )
-    {      
-       if ( ! $printed )
-       {
-         $printed = true;                 # Print header once...
-          
-         print("<TR bgcolor=\"lightcyan\">\n");
-         foreach ($row as $key => $value)
-         {
-            print ("<TH>" . $key . "</TH>");             # Print attr. name
-         }
-         print ("</TH>\n");
-       }   
-          
-          
-       print("<TR>\n");
-       foreach ($row as $key => $value)
-       {   
-         print ("<TD>" . $value . "</TD>");
-       }   
-       print ("</TR>\n");
-    }      
-    print("</TABLE>\n");
-    print("</UL>\n");
-    print("<P>\n");
-    
-    
-?>
+    $db->close();
+    // Required if your envrionment does not handle autoloading
+    require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
+    // Use the REST API Client to make requests to the Twilio REST API
+    use Twilio\Rest\Client;
+    // Your Account SID and Auth Token from twilio.com/console
+    $sid = 'AC587db681d006e09ff7583b7d0f548ef5';
+    $token = '38adf22b4c2c4c2aea3f520b6355a219';
+    $client = new Client($sid, $token);
+    // Use the client to do fun stuff like send text messages!
+    $client->messages->create(
+    // the number you'd like to send the message to
+        '+16789107883',
+        array(
+            // A Twilio phone number you purchased at twilio.com/console
+            'from' => '+16786078046 ',
+            // the body of the text message you'd like to send
+            'body' => 'fk u jonathan!'
+        )
+    );
+    ?> 
 <script>
 setTimeout(function () { window.location.reload(); }, 5*60*1000);
 // just show current time stamp to see time of last refresh.

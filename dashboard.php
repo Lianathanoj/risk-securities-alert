@@ -27,17 +27,31 @@
 
     <?php
     
-        $servername = "127.0.0.1";
-        $username = "root";
-        $password = "";
-        $dbname = "risk";
+        include("config.php");
         
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        $username = mysqli_real_escape_string($db,$_POST['username']);
+        $password = mysqli_real_escape_string($db,$_POST['password']); 
+        $hashedPass = hash("sha-256", $password);
+        
+        $query = "select * 
+                    from user 
+                    where username =".$name." and password=".$hashedPass".;";
+
+        $result = mysqli_query($db,$sql);
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+        $active = $row['active'];
+
+        $count = mysqli_num_rows($result);
+
+        // If result matched $myusername and $mypassword, table row must be 1 row
+
+        if($count != 1) {
+
+            die();
+
         }
+        
+        
         $query = "select sname 
                     from stock 
                     where sid in (select sid 

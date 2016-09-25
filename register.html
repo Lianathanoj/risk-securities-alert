@@ -56,22 +56,20 @@
     <legend style="padding: 25px;font-size: 250%;margin-bottom: 150px; text-align: center">Register Information</legend>
 </header>
 <center>
-<div class="well" style="margin-right: 550px;margin-left: 550px">
+<div class="well" style="">
 <form id="register" onsubmit="return check();" action="registration.php" method="post">
-            <fieldset>
-                Username*: <input type="text" name="username" required>
+            <div class="container">
+                Username: <input type="text" name="username" required>
 
                 Phone Number: <input type="text" name="phone" required><br>
                 <br>
 
-                Password*: <input name="password" required="required" type="password" id="password" />
+                Password: <input name="password" required="required" type="password" id="password" />
 
                 Confirm Password: <input name="password_confirm" required="required" type="password" id="password_confirm" oninput="check(this)" /><br>
                 <br>
+            </div>
 
-            </fieldset>
-
-            <span id="writeroot"></span>
             <br>
             <input type="submit" value="Submit">
             <input type="button" onclick="clearForm()" value="Clear entire form">

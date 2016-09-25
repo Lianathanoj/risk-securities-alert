@@ -1,37 +1,25 @@
 <?php
-/*
-    $servername = "127.0.0.1";
-    $username = "root";
-    $password = "";
-    $dbname = "risk";
+
+    include("config.php");
     
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
     
     //instantiate phone number array
     $phoneNumbers = array();
     
-    // get falling stocks array
-    $fallingStocks;
-    
     
     // query table here
     foreach ($fallingStocks as $stock){
-        $sql ="select phoneNumber 
+        $sql ="select pnum 
                 from users 
                 where uid in (select uid 
                                 from owned 
                                 where sid == ".$stock.")";
-        if(!($result = mysqli_query($conn, $query)))
+        if(!($result = mysqli_query($db, $query)))
         {      
-    
-           printf("Error: %s\n", mysqli_error($conn));
+
+           printf("Error: %s\n", mysqli_error($db));
            exit(1);
-           
+
         } else {
             
             while ( $row = mysqli_fetch_assoc( $result ) )
@@ -49,40 +37,42 @@
         }    
     }
     
+    //compare risk and add if below threshhold
+    
     
     // sms alert all users with risk lower than wanted
     foreach ($phoneNumbers as $number){
         
-        //alert user
         
+        // Required if your envrionment does not handle autoloading
+        require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
+        // Use the REST API Client to make requests to the Twilio REST API
+        use Twilio\Rest\Client;
+        // Your Account SID and Auth Token from twilio.com/console
+        $sid = 'AC587db681d006e09ff7583b7d0f548ef5';
+        $token = '38adf22b4c2c4c2aea3f520b6355a219';
+        $client = new Client($sid, $token);
+        // Use the client to do fun stuff like send text messages!
+        $client->messages->create(
+        // the number you'd like to send the message to
+            '+1'.$number,
+            array(
+                // A Twilio phone number you purchased at twilio.com/console
+                'from' => '+16786078046 ',
+                // the body of the text message you'd like to send
+                'body' => 'fk u jonathan!'
+            )
+        );
         
     }
     
-    // close connection
-    $conn->close();
-*/
+    // close dbection
+    $db->close();
+
 ?>
 
 <?php
-// Required if your envrionment does not handle autoloading
-require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
-// Use the REST API Client to make requests to the Twilio REST API
-use Twilio\Rest\Client;
-// Your Account SID and Auth Token from twilio.com/console
-$sid = 'AC587db681d006e09ff7583b7d0f548ef5';
-$token = '38adf22b4c2c4c2aea3f520b6355a219';
-$client = new Client($sid, $token);
-// Use the client to do fun stuff like send text messages!
-$client->messages->create(
-// the number you'd like to send the message to
-    '+16789107883',
-    array(
-        // A Twilio phone number you purchased at twilio.com/console
-        'from' => '+16786078046 ',
-        // the body of the text message you'd like to send
-        'body' => 'fk u jonathan!'
-    )
-);
+
 ?>
 <script>
 
