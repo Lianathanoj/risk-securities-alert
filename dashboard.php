@@ -89,19 +89,21 @@
           </span>
       </div>
       <input id="rows" type="number" class="form-control" placeholder="Max Results (optional)">
+        <form>
+            <input id="add" type="button" value="Add">
+        </form>
       <table id="displayTable" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
     </div>
 
     <script>
+    var tickers = new Set();
     $(function() {
         var Aladdin = new blk.API({});
       var $table = $('#displayTable');
       var $rows = $('#rows');
       var $search = $('#search');
       var table;
-
       function submit(query, rows, skipColumns, columnOrder) {
-
         if (table) {
           table.destroy();
                 table = null;
@@ -131,6 +133,18 @@
               return col == 'score' ? sec[col].toFixed(3) : sec[col] || '-';
             });
           });
+            $("#add").click(function() {
+                var columnsTicker = ["ticker"];
+                var tableDataTicker = securities.map(function(sec) {
+                    return columnsTicker.map(function(col) {
+                        return col == 'score' ? sec[col].toFixed(3) : sec[col] || '-';
+                    });
+                });
+                if (tickers.length != 0) {
+                    tickers.add(tableDataTicker[0][0]);
+                }
+                console.log(tickers);
+            });
                 if (table) {
                     table.destroy();
                 }
@@ -148,22 +162,16 @@
           });
         });
       }
-
       var skipCols = ['@type', 'asOfDate', 'aladdinTicker', 'assetClass', 'countryCode', 'duration', 'effectiveDuration', 'expense', 'funFamilyNow', 'bcusip', 'bloombergId', 'bloombergTicker', 'country', 'fundFamilyName', 'fundId', 'gics1Sector', 'gics2IndustryGroup', 'gics3Industry', 'giccs4SubIndustry', 'gicsCode', 'inceptionDate', 'incomeYield', 'legalType', 'mappedDescription', 'mappedTicker', 'mappedType', 'marketCode', 'maturity', 'modelDuration', 'modifiedDuration', 'morningstarCategory', 'morningstarFundID', 'morningstarSecID', 'oad', 'pbRatio', 'peRatio', 'portfolioId', 'portfolioName', 'pricingCusip', 'prospectusNetExpenseRatio', 'returnOnAssets', 'returnOnEquity', 'riskCusip', 'secYield', 'secYieldEndDate', 'securityId', 'securityIdType', 'securityName', 'sedol', 'shareClassType', 'stdPerfAsOfDate', 'std'];
       var colOrder = ['score', 'description', 'ticker', 'assetType', 'availability', 'country', 'isin',];
       var searchTimeout;
-
       function delayedSearch(delay) {
         window.clearTimeout(searchTimeout);
         searchTimeout = window.setTimeout(submit.bind(this, $search.val(), $rows.val(), skipCols, colOrder), delay);
       }
       $search.on('input', delayedSearch.bind($search[0], 250));
       $('#submit').click(delayedSearch.bind($search[0], 0));
-
       submit($search.val(), $rows.val(), skipCols, colOrder);
-
-
-
     });
     
     
