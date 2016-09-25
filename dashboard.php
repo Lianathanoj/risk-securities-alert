@@ -1,18 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html class="full" lang="en">
 <head>
-<title>Dashboard</title>
-<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
-<script src="jquery.csv.js"></script>
+    <title>Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+    <script src="jquery.csv.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./assets/js/bootstrap.min.js" defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Wesley Cheung">
+    
+    <!-- Bootstrap Core CSS -->
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome Core CSS -->
+    <link href="./assets/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="./assets/css/custom.css" rel="stylesheet">
 </head>
 <body>
 
 <h1>Dashboard</h1>
 <div>
     <p>Currently Tracking:</p><br>
-    <table>
 
-    </table>
+    <?php
+    
+        $servername = "127.0.0.1";
+        $username = "root";
+        $password = "";
+        $dbname = "risk";
+        
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $query = "select sname 
+                    from stock 
+                    where sid in (select sid 
+                                    from owned 
+                                    where uid = ".$uid.")";
+
+        print("<TR> <TD><FONT color=\"blue\"><B><PRE>\n");
+        print("</PRE></B></FONT></TD></TR></TABLE></UL>\n");
+        print("<P><HR><P>\n");
+              
+        if ( ! ( $result = mysqli_query($conn, $query)) )      # Execute query
+        {      
+           printf("Error: %s\n", mysqli_error($conn));
+           exit(1);
+        }      
+              
+        print("<UL>\n");
+        print("<TABLE bgcolor=\"lightyellow\" BORDER=\"5\">\n");
+              
+        $printed = false;
+
+        while ( $row = mysqli_fetch_assoc( $result ) )
+        {      
+           if ( ! $printed )
+           {   
+             $printed = true;                 # Print header once...
+              
+             print("<TR bgcolor=\"lightcyan\">\n");
+             foreach ($row as $key => $value)
+             {
+                print ("<TH>" . $key . "</TH>");             # Print attr. name
+             }
+             print ("</TH>\n");
+           }   
+              
+              
+           print("<TR>\n");
+           foreach ($row as $key => $value)
+           {   
+             print ("<TD>" . $value . "</TD>");
+           }   
+           print ("</TR>\n");
+        }      
+        print("</TABLE>\n");
+        print("</UL>\n");
+        print("<P>\n");
+        
+        ?>
+        
 </div>
 
 <div>
@@ -36,10 +110,16 @@
           </span>
       </div>
       <input id="rows" type="number" class="form-control" placeholder="Max Results (optional)">
+        <form>
+            <input id="add" type="button" value="Add">
+        </form>
       <table id="displayTable" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
     </div>
 
     <script>
+    var tickers = new Set();
+
+
     $(function() {
         var Aladdin = new blk.API({});
       var $table = $('#displayTable');
@@ -78,6 +158,20 @@
               return col == 'score' ? sec[col].toFixed(3) : sec[col] || '-';
             });
           });
+
+            $("#add").click(function() {
+                var columnsTicker = ["ticker"];
+                var tableDataTicker = securities.map(function(sec) {
+                    return columnsTicker.map(function(col) {
+                        return col == 'score' ? sec[col].toFixed(3) : sec[col] || '-';
+                    });
+                });
+                if (tickers.length != 0) {
+                    tickers.add(tableDataTicker[0][0]);
+                }
+                console.log(tickers);
+            });
+
                 if (table) {
                     table.destroy();
                 }
@@ -96,6 +190,8 @@
         });
       }
 
+
+
       var skipCols = ['@type', 'asOfDate', 'aladdinTicker', 'assetClass', 'countryCode', 'duration', 'effectiveDuration', 'expense', 'funFamilyNow', 'bcusip', 'bloombergId', 'bloombergTicker', 'country', 'fundFamilyName', 'fundId', 'gics1Sector', 'gics2IndustryGroup', 'gics3Industry', 'giccs4SubIndustry', 'gicsCode', 'inceptionDate', 'incomeYield', 'legalType', 'mappedDescription', 'mappedTicker', 'mappedType', 'marketCode', 'maturity', 'modelDuration', 'modifiedDuration', 'morningstarCategory', 'morningstarFundID', 'morningstarSecID', 'oad', 'pbRatio', 'peRatio', 'portfolioId', 'portfolioName', 'pricingCusip', 'prospectusNetExpenseRatio', 'returnOnAssets', 'returnOnEquity', 'riskCusip', 'secYield', 'secYieldEndDate', 'securityId', 'securityIdType', 'securityName', 'sedol', 'shareClassType', 'stdPerfAsOfDate', 'std'];
       var colOrder = ['score', 'description', 'ticker', 'assetType', 'availability', 'country', 'isin',];
       var searchTimeout;
@@ -109,7 +205,11 @@
 
       submit($search.val(), $rows.val(), skipCols, colOrder);
 
+
+
     });
+    
+    
     </script>
     <!--
     <form>
@@ -139,6 +239,7 @@
     </script>
 -->
 </div>
+
 
 </body>
 </html>
