@@ -20,6 +20,7 @@
 <body>
 
 <h1 style="font-size: 400%"><center>Dashboard</center></h1>
+<hr>
 <div>
     
     <?php
@@ -61,17 +62,33 @@
         $uid = $row['uid'];
         
         if(isset($_POST['addStock']) && $_POST['addStock'] != ""){
-            $addStock = $_POST['addStock'];
+            $addStock = mysqli_real_escape_string($db,$_POST['addStock']);
             $query = "INSERT INTO owned
                         VALUES ('$uid', '$addStock');";
             if(!($result = mysqli_query($db, $query)))
             {
-                printf("Error");
+                echo("<center>Error: Stock already under portfolio</center>");
+            } else {
+                echo("<center>Stock ".$_POST['addStock']." successfully added! </center>");
             }
             
-            echo("<center>Stock ".$_POST['addStock']." successfully added! </center>");
         }
         
+        //check if stock needs to be removed
+        if(isset($_POST['removeStock']) && $_POST['removeStock'] != ""){
+            $removeStock = mysqli_real_escape_string($db,$_POST['removeStock']);
+            $query = "DELETE FROM owned
+                        where uid='$uid' and sid='$removeStock';";
+            if(!($result = mysqli_query($db, $query)))
+            {
+                echo "     Your registration FAILED\n";
+            echo "Error: " . $query . "<br>" . $db->error;
+            } else {
+                echo("<center>Stock ".$_POST['removeStock']." successfully deleted! </center>");
+            }
+            
+        }
+
         // get stocks owned
         $query = "select sid from owned where uid ='".$uid."';";
         if(!($result = mysqli_query($db, $query)))
@@ -89,13 +106,17 @@
         }
         
         
-        
+        // close connection
+        $db->close();
         ?>
         
         
 
 </div>
-<p style="font-size: 200%;margin-left: 175px">Currently Tracking:</p><br>
+<p style="font-size: 200%;margin-left: 175px">Currently Tracking:</p>
+
+
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/bs-3.3.5/jq-2.1.4,dt-1.10.8/datatables.min.css">
 <script src="https://cdn.datatables.net/r/bs-3.3.5/jqc-1.11.3,dt-1.10.8/datatables.min.js"></script>
 <script src="https://code.highcharts.com/stock/highstock.js"></script>
@@ -118,9 +139,13 @@ tr:nth-child(even) {
 </style>
 
 <div class="container">
-  <h4 style="text-align:center;">
+  <h3 style="text-align:center;">
   Holdings
-  </h4>
+  </h3>
+  <center>
+  <input type="text" name="removeStock" value="" form="form" />
+  <input type="submit" value="Remove Stock Ticker" form="form" />
+  </center>
   <table id="holdings" class="table table-striped table-bordered" cellspacing="0" width="100%"></table>
 </div>
 <h4 style="text-align:center;">
@@ -203,6 +228,19 @@ $(function() {
 <br>
 <hr>
 <br>
+<center>
+ <form action="./update.php" method="post">
+        <input type="hidden" name="username" value=<?php echo $username?>>
+        <input type="hidden" name="stocks" value=<?php echo $stocks?>>
+        <input type="hidden" name="password" value=<?php echo $password?>>
+        <input type="text" name="threshold" placeholder="Threshold Risk" required>
+        <input type="submit" value="Get Automated Alerts">
+</form>
+</center>
+
+<br>
+<hr>
+<br>
 
 <div>
     <p style="font-size: 200%;margin-left: 175px">Add Assets:</p>
@@ -224,7 +262,7 @@ $(function() {
           </span>
         </div>
         <input id="rows" type="number" class="form-control" placeholder="Max Results (optional)">
-        <form name="myform" action="./dashboard.php" method="post">
+        <form id="form" name="myform" action="./dashboard.php" method="post">
             <input type="hidden" name="addStock" value="" >
             <input type="hidden" name="username" value="<?php echo $username ?>" >
             <input type="hidden" name="password" value="<?php echo $password ?>" >

@@ -7,8 +7,8 @@ riskThreshhold INTEGER,
 uid char(20) NOT NULL UNIQUE) ;
     
 create table owned(
-uid char(20) NOT NULL,
-sid char(20) NOT NULL);
+uid char(20) NOT NULL UNIQUE,
+sid char(20) NOT NULL UNIQUE);
 
 create table stock(
 sname name char(20) NOT NULL,
