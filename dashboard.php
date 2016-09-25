@@ -19,57 +19,42 @@
 </head>
 <body>
 
-<h1><center>Dashboard</center></h1>
+<h1 style="font-size: 400%"><center>Dashboard</center></h1>
 <div>
-    <p>Currently Tracking:</p><br>
+    <p style="font-size: 200%;margin-left: 175px">Currently Tracking:</p><br>
 
     <?php
-    
         include("config.php");
-        
         $username = mysqli_real_escape_string($db,$_POST['username']);
         $password = mysqli_real_escape_string($db,$_POST['password']);
-
         $query = "select salt from user where username ='".$username."';";
-
         if(!($result = mysqli_query($db, $query)))
-        {      
+        {
             die();
         }
         $row = mysqli_fetch_array($result);
         $salt = $row['salt'];
-        
-        
         $hashedPass = hash("sha256", $salt.$password);
         $query = "select uid from user where username ='".$username."' and password='".$hashedPass."';";
-
         if(!($result = mysqli_query($db, $query)))
-        {      
+        {
                 echo "     Your registration FAILED\n";
                 echo "Error: " . $query . "<br>" . $db->error;
-           
         }
         $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
         $count = mysqli_num_rows($result);
-
         // If result matched $myusername and $mypassword, table row must be 1 row
-		
         if($count != 1) {
             echo "Not logged in";
             die();
         }
-        
         echo "<h2><center>Hello ". $username."</center></h2>";
-        
-
-        
         ?>
-        
+
 </div>
 
 <div>
-    <p>Add Assets:</p>
+<p style="font-size: 200%;margin-left: 175px">Add Assets:</p>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://test3.blackrock.com/tools/resources/css/api/main.css">
     <link rel="stylesheet" href="https://test3.blackrock.com/tools/resources/css/api/tables.css">
