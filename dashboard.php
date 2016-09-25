@@ -53,10 +53,10 @@
         $count = mysqli_num_rows($result);
         // If result matched $myusername and $mypassword, table row must be 1 row
         if($count != 1) {
-            echo "Not logged in";
+            echo "<center>Not logged in/invalid login</cemter>";
             die();
         }
-        echo "<h2><center>Hello ". $username."</center></h2>";
+        echo "<h2><center>Welcome ". $username."!</center></h2>";
         
         //check if stock as been added
         $uid = $row['uid'];
@@ -81,10 +81,9 @@
                         where uid='$uid' and sid='$removeStock';";
             if(!($result = mysqli_query($db, $query)))
             {
-                echo "     Your registration FAILED\n";
-            echo "Error: " . $query . "<br>" . $db->error;
+                echo("<center>Error: Invalid Stock</center>");
             } else {
-                echo("<center>Stock ".$_POST['removeStock']." successfully deleted! </center>");
+                echo("<center>Stock ".$_POST['removeStock']." successfully removed! </center>");
             }
             
         }
@@ -113,7 +112,7 @@
         
 
 </div>
-<p style="font-size: 200%;margin-left: 175px">Currently Tracking:</p>
+<p style="font-size: 200%;margin-left: 175px">Currently owned securities:</p>
 
 
 
@@ -231,7 +230,6 @@ $(function() {
 <center>
  <form action="./update.php" method="post">
         <input type="hidden" name="username" value=<?php echo $username?>>
-        <input type="hidden" name="stocks" value=<?php echo $stocks?>>
         <input type="hidden" name="password" value=<?php echo $password?>>
         <input type="text" name="threshold" placeholder="Threshold Risk" required>
         <input type="submit" value="Get Automated Alerts">

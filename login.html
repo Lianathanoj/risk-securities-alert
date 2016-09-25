@@ -15,14 +15,6 @@
             }
         }
 
-        function check() {
-
-            if (confirm('Please check over the form and verify that all fields are correct!')) {
-                return true;
-            }
-            return false;
-
-        }
     </script>
 
     <meta charset="utf-8">
@@ -48,15 +40,13 @@
 <body>
 <center>
 <div class="well" style="margin-right: 450px;margin-left: 450px">
-<form id="register" onsubmit="return check();" action="dashboard.php" method="post">
+<form id="register" action="dashboard.php" method="post">
             <fieldset>
                 Username*: <input type="text" name="username" required><br>
                 <br>
-                Password*: <input type="text" name="password" required>
+                Password*: <input type="password" name="password" required>
 
             </fieldset>
-
-            <span id="writeroot"></span>
 
             <br>
 

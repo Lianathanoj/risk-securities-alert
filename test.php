@@ -1,23 +1,6 @@
 <?php
-    include("config.php");
-    
-    $name = "lol";
-    $phoneNumber;
     
 
-    $query = "select pnum from user";
-                
-    if ( ! ( $result = mysqli_query($db, $query)) )      # Execute query
-    {      
-       printf("Error: %s\n", mysqli_error($db));
-       exit(1);
-    }    
-    $row = mysqli_fetch_assoc( $result );
-    foreach ($row as $string) {
-        printf($string);
-    }
-
-    $db->close();
     // Required if your envrionment does not handle autoloading
     require __DIR__ . '/twilio-php-master/Twilio/autoload.php';
     // Use the REST API Client to make requests to the Twilio REST API
