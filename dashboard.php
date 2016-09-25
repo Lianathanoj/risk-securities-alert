@@ -23,6 +23,42 @@
 
 <h1>Dashboard</h1>
 <div>
+
+    <p>Top 15 Stocks:</p>
+    <form>
+        <table>
+            <tr>
+                <td>
+                    <input type="checkbox" value="AAPL"><label>AAPL</label>
+                    <input type="checkbox" value="FB"><label>FB</label>
+                    <input type="checkbox" value="QQQ"><label>QQQ</label>
+                    <input type="checkbox" value="AMZN"><label>AMZN</label>
+                    <input type="checkbox" value="YHOO"><label>YHOO</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" value="MDVN"><label>MDVN</label>
+                    <input type="checkbox" value="GOOGL"><label>GOOGL</label>
+                    <input type="checkbox" value="MSFT"><label>MSFT</label>
+                    <input type="checkbox" value="MAR"><label>MAR</label>
+                    <input type="checkbox" value="XIV"><label>XIV</label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="checkbox" value="INTC"><label>INTC</label>
+                    <input type="checkbox" value="BIDU"><label>BIDU</label>
+                    <input type="checkbox" value="TSLA"><label>TSLA</label>
+                    <input type="checkbox" value="CSCO"><label>CSCO</label>
+                    <input type="checkbox" value="NFLX"><label>NFLX</label>
+                </td>
+            </tr>
+        </table>
+        <button id="find">Submit</button>
+    </form>
+    <br>
+
     <p>Currently Tracking:</p><br>
 
     <?php
