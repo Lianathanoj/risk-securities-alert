@@ -210,7 +210,6 @@ $(function() {
     <link rel="stylesheet" href="https://test3.blackrock.com/tools/resources/css/api/main.css">
     <link rel="stylesheet" href="https://test3.blackrock.com/tools/resources/css/api/tables.css">
     <link rel="stylesheet" href="https://test3.blackrock.com/tools/resources/css/api/theme.css">
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://test3.blackrock.com/tools/resources/js/api/bootstrap.js"></script>
