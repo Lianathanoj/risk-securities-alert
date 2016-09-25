@@ -1,10 +1,10 @@
 create table user(
-username char(20) NOT NULL,
-password char(20) NOT NULL,
-salt char(20) NOT NULL,
-pnum char(10) NOT NULL,
+username char(20) NOT NULL UNIQUE,
+password char(100) NOT NULL,
+salt char(50) NOT NULL,
+pnum char(10) NOT NULL UNIQUE,
 riskThreshhold INTEGER, 
-uid char(20) NOT NULL) ;
+uid char(20) NOT NULL UNIQUE) ;
     
 create table owned(
 uid char(20) NOT NULL,

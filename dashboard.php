@@ -16,12 +16,10 @@
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome Core CSS -->
     <link href="./assets/css/font-awesome.min.css" rel="stylesheet" />
-    <!-- Custom CSS -->
-    <link href="./assets/css/custom.css" rel="stylesheet">
 </head>
 <body>
 
-<h1>Dashboard</h1>
+<h1><center>Dashboard</center></h1>
 <div>
     <p>Currently Tracking:</p><br>
 
@@ -30,74 +28,41 @@
         include("config.php");
         
         $username = mysqli_real_escape_string($db,$_POST['username']);
-        $password = mysqli_real_escape_string($db,$_POST['password']); 
-        $hashedPass = hash("sha-256", $password);
-        
-        $query = "select * 
-                    from user 
-                    where username =".$name." and password=".$hashedPass".;";
+        $password = mysqli_real_escape_string($db,$_POST['password']);
 
-        $result = mysqli_query($db,$sql);
-        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-        $active = $row['active'];
+        $query = "select salt from user where username ='".$username."';";
+
+        if(!($result = mysqli_query($db, $query)))
+        {      
+            die();
+        }
+        $row = mysqli_fetch_array($result);
+        $salt = $row['salt'];
+        
+        
+        $hashedPass = hash("sha256", $salt.$password);
+        $query = "select uid from user where username ='".$username."' and password='".$hashedPass."';";
+
+        if(!($result = mysqli_query($db, $query)))
+        {      
+                echo "     Your registration FAILED\n";
+                echo "Error: " . $query . "<br>" . $db->error;
+           
+        }
+        $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
         $count = mysqli_num_rows($result);
 
         // If result matched $myusername and $mypassword, table row must be 1 row
-
+		
         if($count != 1) {
-
+            echo "Not logged in";
             die();
-
         }
         
+        echo "<h2><center>Hello ". $username."</center></h2>";
         
-        $query = "select sname 
-                    from stock 
-                    where sid in (select sid 
-                                    from owned 
-                                    where uid = ".$uid.")";
 
-        print("<TR> <TD><FONT color=\"blue\"><B><PRE>\n");
-        print("</PRE></B></FONT></TD></TR></TABLE></UL>\n");
-        print("<P><HR><P>\n");
-              
-        if ( ! ( $result = mysqli_query($conn, $query)) )      # Execute query
-        {      
-           printf("Error: %s\n", mysqli_error($conn));
-           exit(1);
-        }      
-              
-        print("<UL>\n");
-        print("<TABLE bgcolor=\"lightyellow\" BORDER=\"5\">\n");
-              
-        $printed = false;
-
-        while ( $row = mysqli_fetch_assoc( $result ) )
-        {      
-           if ( ! $printed )
-           {   
-             $printed = true;                 # Print header once...
-              
-             print("<TR bgcolor=\"lightcyan\">\n");
-             foreach ($row as $key => $value)
-             {
-                print ("<TH>" . $key . "</TH>");             # Print attr. name
-             }
-             print ("</TH>\n");
-           }   
-              
-              
-           print("<TR>\n");
-           foreach ($row as $key => $value)
-           {   
-             print ("<TD>" . $value . "</TD>");
-           }   
-           print ("</TR>\n");
-        }      
-        print("</TABLE>\n");
-        print("</UL>\n");
-        print("<P>\n");
         
         ?>
         
